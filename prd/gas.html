@@ -26,13 +26,14 @@
 
       .phone-frame {
         width: 320px;
-        height: 650px;
+        /* height: 650px; */
         background-color: white;
         border-radius: 30px;
         overflow: hidden;
         position: relative;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
+        padding-bottom: 80px;
       }
 
       .phone-header {
@@ -58,8 +59,8 @@
       }
 
       .phone-content {
-        height: 530px; /* 减少高度，为tabbar留出空间 */
-        overflow-y: auto;
+        /* height: 530px; */
+        /* overflow-y: auto; */
         padding: 15px;
       }
 
@@ -409,6 +410,71 @@
         font-size: 16px;
         margin-top: 30px;
         cursor: pointer;
+      }
+
+      /* 记录列表样式 */
+      .record-list {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .record-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        border-bottom: 1px solid #f5f5f5;
+      }
+
+      .record-item:last-child {
+        border-bottom: none;
+      }
+
+      .record-left {
+        flex: 1;
+      }
+
+      .record-title {
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .record-time {
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 3px;
+      }
+
+      .record-station {
+        font-size: 12px;
+        color: #666;
+      }
+
+      .record-right {
+        text-align: right;
+      }
+
+      .record-amount {
+        font-size: 16px;
+        font-weight: bold;
+        color: #52c41a;
+        margin-bottom: 5px;
+      }
+
+      .record-amount.expense {
+        color: #c4000f;
+      }
+
+      .record-status {
+        font-size: 12px;
+        color: #666;
+      }
+
+      .record-liters {
+        font-size: 12px;
+        color: #666;
       }
     </style>
   </head>
@@ -823,7 +889,7 @@
             </div>
           </div>
 
-          <div class="balance-card" style="height: 80px">
+          <div class="balance-card">
             <div class="balance-title">账户余额</div>
             <div class="balance-amount">¥ 520.00</div>
           </div>
@@ -855,6 +921,215 @@
           </div>
 
           <button class="logout-btn">退出登录</button>
+        </div>
+        <div class="phone-footer">
+          <div class="tabbar">
+            <div class="tab-item">
+              <div class="tab-icon">🏠</div>
+              <div>首页</div>
+            </div>
+            <div class="tab-item active">
+              <div class="tab-icon">👤</div>
+              <div>我的</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 充值记录页面 -->
+      <div class="phone-frame">
+        <div class="phone-header">
+          <div class="back-icon">←</div>
+          <div class="phone-title">充值记录</div>
+        </div>
+        <div class="phone-content">
+          <div class="page-title">充值记录页面</div>
+
+          <div class="record-list">
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">微信充值</div>
+                <div class="record-time">2023-12-15 14:30:25</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount">+¥200.00</div>
+                <div class="record-status">充值成功</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">微信充值</div>
+                <div class="record-time">2023-12-10 09:15:36</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount">+¥500.00</div>
+                <div class="record-status">充值成功</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">线下充值</div>
+                <div class="record-time">2023-11-28 18:45:12</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount">+¥300.00</div>
+                <div class="record-status">充值成功</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">微信充值</div>
+                <div class="record-time">2023-11-15 11:20:45</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount">+¥100.00</div>
+                <div class="record-status">充值成功</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">微信充值</div>
+                <div class="record-time">2023-10-30 16:05:18</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount">+¥200.00</div>
+                <div class="record-status">充值成功</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-footer">
+          <div class="tabbar">
+            <div class="tab-item">
+              <div class="tab-icon">🏠</div>
+              <div>首页</div>
+            </div>
+            <div class="tab-item active">
+              <div class="tab-icon">👤</div>
+              <div>我的</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 消费记录页面 -->
+      <div class="phone-frame">
+        <div class="phone-header">
+          <div class="back-icon">←</div>
+          <div class="phone-title">消费记录</div>
+        </div>
+        <div class="phone-content">
+          <div class="page-title">消费记录页面</div>
+
+          <div class="record-list">
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">92号汽油</div>
+                <div class="record-time">2023-12-18 10:25:36</div>
+                <div class="record-station">中石化第一加油站</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount expense">-¥190.00</div>
+                <div class="record-liters">26.2L</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">95号汽油</div>
+                <div class="record-time">2023-12-05 16:40:12</div>
+                <div class="record-station">中石油第二加油站</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount expense">-¥285.00</div>
+                <div class="record-liters">35.8L</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">92号汽油</div>
+                <div class="record-time">2023-11-22 08:15:45</div>
+                <div class="record-station">中石化第一加油站</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount expense">-¥142.50</div>
+                <div class="record-liters">19.7L</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">98号汽油</div>
+                <div class="record-time">2023-11-10 14:30:22</div>
+                <div class="record-station">中石油第三加油站</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount expense">-¥320.00</div>
+                <div class="record-liters">37.0L</div>
+              </div>
+            </div>
+
+            <div class="record-item">
+              <div class="record-left">
+                <div class="record-title">92号汽油</div>
+                <div class="record-time">2023-10-28 19:05:18</div>
+                <div class="record-station">中石化第一加油站</div>
+              </div>
+              <div class="record-right">
+                <div class="record-amount expense">-¥171.00</div>
+                <div class="record-liters">23.7L</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-footer">
+          <div class="tabbar">
+            <div class="tab-item">
+              <div class="tab-icon">🏠</div>
+              <div>首页</div>
+            </div>
+            <div class="tab-item active">
+              <div class="tab-icon">👤</div>
+              <div>我的</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 修改密码页面 -->
+      <div class="phone-frame">
+        <div class="phone-header">
+          <div class="back-icon">←</div>
+          <div class="phone-title">修改密码</div>
+        </div>
+        <div class="phone-content">
+          <div class="page-title">修改密码页面</div>
+
+          <div class="input-group">
+            <label>原密码</label>
+            <input type="password" placeholder="请输入原密码" />
+          </div>
+
+          <div class="input-group">
+            <label>新密码</label>
+            <input type="password" placeholder="请输入新密码" />
+          </div>
+
+          <div class="input-group">
+            <label>确认新密码</label>
+            <input type="password" placeholder="请再次输入新密码" />
+          </div>
+
+          <div style="font-size: 12px; color: #999; margin-top: 10px">
+            密码长度为6-20位，必须包含字母和数字
+          </div>
+
+          <button class="btn-primary">确认修改</button>
         </div>
         <div class="phone-footer">
           <div class="tabbar">
