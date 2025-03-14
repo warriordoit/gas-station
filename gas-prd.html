@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加油站会员小程序</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 414px;
+        margin: 0 auto;
+        background: #fff;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .theme-color {
+        color: #c4000f;
+      }
+
+      .theme-bg {
+        background-color: #c4000f;
+      }
+
+      .btn-primary {
+        background-color: #c4000f;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 20px;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .btn-outline {
+        background-color: white;
+        color: #c4000f;
+        border: 1px solid #c4000f;
+        border-radius: 4px;
+        padding: 12px 20px;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .page {
+        padding: 20px;
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .header img {
+        width: 120px;
+        margin-bottom: 15px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        color: #333;
+      }
+
+      .code-input {
+        display: flex;
+      }
+
+      .code-input input {
+        flex: 1;
+      }
+
+      .code-input button {
+        width: 120px;
+        margin-left: 10px;
+        white-space: nowrap;
+      }
+
+      .card {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .balance-card {
+        background: linear-gradient(135deg, #c4000f, #ff3b30);
+        color: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .balance-card .amount {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .feature-item {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+      }
+
+      .feature-item img {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 10px;
+      }
+
+      .member-code {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .member-code img {
+        width: 200px;
+        height: 200px;
+        margin: 10px auto;
+      }
+
+      .tab-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        display: flex;
+        border-top: 1px solid #eee;
+        max-width: 414px;
+        margin: 0 auto;
+      }
+
+      .tab-item {
+        flex: 1;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .tab-item.active {
+        color: #c4000f;
+      }
+
+      .tab-item img {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 4px;
+      }
+
+      .amount-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      .amount-option {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px 0;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .amount-option.active {
+        border-color: #c4000f;
+        color: #c4000f;
+      }
+
+      .success-icon {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .success-icon img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+
+      .detail-item .label {
+        color: #666;
+      }
+
+      .detail-item .value {
+        font-weight: bold;
+      }
+
+      .highlight {
+        color: #c4000f;
+        font-weight: bold;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .user-info img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 15px;
+      }
+
+      .menu-list {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #f5f5f5;
+        cursor: pointer;
+      }
+
+      .menu-item:last-child {
+        border-bottom: none;
+      }
+
+      .menu-item .icon {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+      }
+
+      .menu-item .arrow {
+        color: #ccc;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .checkbox-group input {
+        margin-right: 10px;
+      }
+
+      .checkbox-group label {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .checkbox-group a {
+        color: #c4000f;
+        text-decoration: none;
+      }
+
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        cursor: pointer;
+      }
+
+      .page-title {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 20px;
+        padding-top: 10px;
+      }
+
+      .station-list {
+        margin-top: 15px;
+      }
+
+      .station-item {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+      }
+
+      .station-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .station-address {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .station-distance {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .search-bar {
+        display: flex;
+        margin-bottom: 15px;
+      }
+
+      .search-bar input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .search-bar button {
+        padding: 10px 15px;
+        background: #c4000f;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+      }
+
+      .record-list {
+        margin-top: 20px;
+      }
+
+      .record-item {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .record-time {
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 5px;
+      }
+
+      .record-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .record-amount {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .record-amount.positive {
+        color: #c4000f;
+      }
+
+      .record-amount.negative {
+        color: #333;
+      }
+
+      .status-tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+
+      .status-success {
+        background: rgba(196, 0, 15, 0.1);
+        color: #c4000f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 登录页面 -->
+      <div id="login-page" class="page active">
+        <div class="header">
+          <img
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj48Y2lyY2xlIGN4PSI2MCIgY3k9IjYwIiByPSI1OCIgZmlsbD0iI2M0MDAwZiIvPjxwYXRoIGQ9Ik00MCA4MEw2MCA0MEw4MCA4MEw2MCA2MEw0MCA4MHoiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNjAiIHk9IjkwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiPuWKoOaziOermTwvdGV4dD48L3N2Zz4="
+            alt="加油站LOGO"
+          />
+          <h1>加油站会员登录</h1>
+        </div>
+
+        <div class="input-group">
+          <label>手机号</label>
+          <input type="tel" placeholder="请输入手机号码" />
+        </div>
+
+        <div class="input-group">
+          <label>验证码</label>
+          <div class="code-input">
+            <input type="text" placeholder="请输入验证码" />
+            <button class="btn-outline">获取验证码</button>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="showPage('info-page')">
+          登录
+        </button>
+      </div>
+
+      <!-- 完善个人信息页面 -->
+      <div id="info-page" class="page">
+        <div class="header">
+          <h1>完善个人信息</h1>
+          <p>请填写真实信息以开通电子油卡</p>
+        </div>
+
+        <div class="input-group">
+          <label>姓名</label>
+          <input type="text" placeholder="请输入真实姓名" />
+        </div>
+
+        <div class="input-group">
+          <label>身份证号</label>
+          <input type="text" placeholder="请输入身份证号码" />
+        </div>
+
+        <div class="input-group">
+          <label>手机号</label>
+          <input type="tel" placeholder="请输入手机号码" />
+        </div>
+
+        <div class="input-group">
+          <label>员工邀请码（选填）</label>
+          <input type="text" placeholder="请输入员工邀请码" />
+        </div>
+
+        <div class="input-group">
+          <label>车牌号</label>
+          <input type="text" placeholder="请输入车牌号" />
+        </div>
+
+        <div class="input-group">
+          <label>常用油品类型</label>
+          <select>
+            <option value="">请选择油品类型</option>
+            <option value="92">92#汽油</option>
+            <option value="95">95#汽油</option>
+            <option value="98">98#汽油</option>
+            <option value="0">柴油</option>
+          </select>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="agreement1" />
+          <label for="agreement1"
+            >我已阅读并同意<a href="#">《电子油卡协议》</a></label
+          >
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="agreement2" />
+          <label for="agreement2"
+            >我已阅读并同意<a href="#">《个人隐私协议》</a></label
+          >
+        </div>
+
+        <button class="btn-primary" onclick="showPage('home-page')">
+          提交信息
+        </button>
+      </div>
+
+      <!-- 首页 -->
+      <div id="home-page" class="page">
+        <div class="member-code">
+          <h3>会员码</h3>
+          <p>出示会员码可在油站进行充值</p>
+          <img
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMCAwaDIwMHYyMDBIMHoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjAgMjBoMTYwdjE2MEgyMHoiLz48cGF0aCBmaWxsPSIjMDAwIiBkPSJNNDAgNDBoMjB2MjBINDB6TTYwIDQwaDIwdjIwSDYwek04MCA0MGgyMHYyMEg4MHpNMTAwIDQwaDIwdjIwSDEwMHpNMTIwIDQwaDIwdjIwSDEyMHpNMTQwIDQwaDIwdjIwSDE0MHpNNDAgNjBoMjB2MjBINDB6TTE0MCA2MGgyMHYyMEgxNDB6TTQwIDgwaDIwdjIwSDQwek04MCA4MGgyMHYyMEg4MHpNMTAwIDgwaDIwdjIwSDEwMHpNMTQwIDgwaDIwdjIwSDE0MHpNNDAgMTAwaDIwdjIwSDQwek02MCAxMDBoMjB2MjBINjB6TTgwIDEwMGgyMHYyMEg4MHpNMTQwIDEwMGgyMHYyMEgxNDB6TTQwIDEyMGgyMHYyMEg0MHpNMTQwIDEyMGgyMHYyMEgxNDB6TTQwIDE0MGgyMHYyMEg0MHpNNjAgMTQwaDIwdjIwSDYwek04MCAxNDBoMjB2MjBIODB6TTEwMCAxNDBoMjB2MjBIMTAwek0xMjAgMTQwaDIwdjIwSDEyMHpNMTQwIDE0MGgyMHYyMEgxNDB6Ii8+PC9zdmc+"
+            alt="会员码"
+          />
+          <p>会员号：888888</p>
+        </div>
+
+        <div class="balance-card">
+          <p>账户余额</p>
+          <div class="amount">¥ 1,280.00</div>
+          <button
+            class="btn-outline"
+            style="
+              background: rgba(255, 255, 255, 0.2);
+              color: white;
+              border: none;
+            "
+            onclick="showPage('recharge-page')"
+          >
+            立即充值
+          </button>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-item" onclick="showPage('recharge-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTIwIDRDMTEuMTYgNCw0IDExLjE2LDQgMjBzNy4xNiAxNiwxNiwxNnMxNi03LjE2LDE2LTE2UzI4Ljg0IDQsMjAgNHogTTIyIDI4aC00di00aDR2NHogTTIyIDIyaC00Yy0uNTUgMC0xLS40NS0xLTFWMTNjMC0uNTUuNDUtMSwxLTFoNGMuNTUgMCwxLC40NSwxLDF2OEMyMyAyMS41NSwyMi41NSAyMiwyMiAyMnoiLz48L3N2Zz4="
+              alt="充值中心"
+            />
+            <p>充值中心</p>
+          </div>
+          <div class="feature-item" onclick="showPage('station-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTMwLDEzLjVjMC0xLjM4LTEuMTItMi41LTIuNS0yLjVoLTVWOWMwLTIuMjEtMS43OS00LTQtNGgtNWMtMi4yMSwwLTQsMS43OS00LDR2Mmg1Yy0xLjM4LDAtMi41LDEuMTItMi41LDIuNXYyMGMwLDEuMzgsMS4xMiwyLjUsMi41LDIuNWgyMGMxLjM4LDAsMi41LTEuMTIsMi41LTIuNVYxMy41eiBNMTMsOWMwLTAuNTUsMC40NS0xLDEtMWg1YzAuNTUsMCwxLDAuNDUsMSwxdjJoLTdWOXogTTI1LDMzLjVjMCwwLjI4LTAuMjIsMC41LTAuNSwwLjVoLTIwYy0wLjI4LDAtMC41LTAuMjItMC41LTAuNXYtMjBjMC0wLjI4LDAuMjItMC41LDAuNS0wLjVoMjBjMC4yOCwwLDAuNSwwLjIyLDAuNSwwLjVWMzMuNXoiLz48L3N2Zz4="
+              alt="在线加油"
+            />
+            <p>在线加油</p>
+          </div>
+          <div class="feature-item" onclick="showPage('consumption-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTMyLDhIOGMtMi4yMSwwLTQsMS43OS00LDR2MTZjMCwyLjIxLDEuNzksNCw0LDRoMjRjMi4yMSwwLDQtMS43OSw0LTRWMTJDMzYsOS43OSwzNC4yMSw4LDMyLDh6IE04LDEyaDI0djRIOFYxMnogTTgsMjB2LTJoMjR2MkgzeiBNMzIsMjhIOHYtNGgyNFYyOHoiLz48L3N2Zz4="
+              alt="消费记录"
+            />
+            <p>消费记录</p>
+          </div>
+          <div class="feature-item" onclick="showPage('profile-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTIwLDRDMTEuMTYsNCw0LDExLjE2LDQsMjBzNy4xNiwxNiwxNiwxNnMxNi03LjE2LDE2LTE2UzI4Ljg0LDQsMjAsNHogTTIwLDhjMi4yMSwwLDQsMS43OSw0LDRzLTEuNzksNC00LDRzLTQtMS43OS00LTRTMTcuNzksOCwyMCw4eiBNMjAsMzJjLTMuMzEsMC02LjI2LTEuNjUtOC04LjM3YzAuMDMtMi42NSw1LjM3LTQuMTIsOC00LjEyczguMDIsMS40Nyw4LDQuMTJDMjYuMjYsMzAuMzUsMjMuMzEsMzIsMjAsMzJ6Ii8+PC9zdmc+"
+              alt="个人中心"
+            />
+            <p>个人中心</p>
+          </div>
+        </div>
+
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTEwIDIwdi02aDR2Nmg1di04aDNMMTIgMyAyIDEyaDN2OHoiLz48L3N2Zz4="
+              alt="首页"
+            />
+            <div>首页</div>
+          </div>
+          <div class="tab-item" onclick="showPage('station-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzY2NiI+PHBhdGggZD0iTTE5Ljc3IDcuMjNsLjAxLS4wMS0zLjcyLTMuNzJMMTUgNC4yNXYyLjA2Yy0uODMuMDYtMS41Ny40My0xLjk5IDEuMDJsLS4yMi0uMDZjLTIuMzYtLjY1LTQuNzYtLjA2LTYuOTQgMS42NC0yLjE4IDEuNy0zLjQzIDQuMzYtMy40MyA3LjA5SDVjMC0yLjIxIDEuMDMtNC40MiAyLjc1LTUuODIgMS43MS0xLjM5IDMuNTgtMS44NSA1LjQ2LTEuMzJsLjE2LjA1Yy0uNDMuNDMtLjcyIDEuMDItLjcyIDEuNjhoMy4wMWMwLTEuMzggMS4xMi0yLjUgMi41LTIuNWguNnYtMi4yMWwxLjAxLTEuMDFNMTggMTVoLTJ2N2gydi03bS00IDBINnY1aDh2LTV6Ii8+PC9zdmc+"
+              alt="加油"
+            />
+            <div>加油</div>
+          </div>
+          <div class="tab-item" onclick="showPage('consumption-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzY2NiI+PHBhdGggZD0iTTE5IDNINWMtMS4xMSAwLTIgLjktMiAydjE0YzAgMS4xLjg5IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bS0yIDEwSDdWNWgxMHY4eiIvPjwvc3ZnPg=="
+              alt="订单"
+            />
+            <div>订单</div>
+          </div>
+          <div class="tab-item" onclick="showPage('profile-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHY2aDE2di02YzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg=="
+              alt="我的"
+            />
+            <div>我的</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 充值中心页面 -->
+      <div id="recharge-page" class="page">
+        <div class="header">
+          <h1>充值中心</h1>
+        </div>
+
+        <div class="card">
+          <p>当前余额</p>
+          <div class="amount theme-color">¥ 1,280.00</div>
+        </div>
+
+        <div class="card">
+          <p>选择充值金额</p>
+          <div class="amount-options">
+            <div class="amount-option">¥100</div>
+            <div class="amount-option active">¥200</div>
+            <div class="amount-option">¥500</div>
+            <div class="amount-option">¥1000</div>
+            <div class="amount-option">¥2000</div>
+            <div class="amount-option">自定义</div>
+          </div>
+
+          <div class="input-group">
+            <input type="number" placeholder="其他金额" value="200" />
+          </div>
+
+          <button class="btn-primary">微信支付</button>
+        </div>
+
+        <button
+          class="btn-outline"
+          style="margin-top: 20px"
+          onclick="showPage('home-page')"
+        >
+          返回首页
+        </button>
+      </div>
+
+      <!-- 油站选择页面 -->
+      <div id="station-page" class="page">
+        <div class="header">
+          <h1>选择加油站</h1>
+        </div>
+
+        <div class="input-group">
+          <input type="text" placeholder="搜索加油站" />
+        </div>
+
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 15px;
+            "
+          >
+            <h3>附近加油站</h3>
+            <span class="theme-color">刷新</span>
+          </div>
+
+          <div class="station-item" onclick="showPage('refuel-page')">
+            <div>
+              <h4>中石化第一加油站</h4>
+              <p>距离: 1.2km | 92#: ¥7.23/L</p>
+              <p>地址: 北京市朝阳区建国路18号</p>
+            </div>
+            <div class="arrow">></div>
+          </div>
+
+          <div class="station-item" onclick="showPage('refuel-page')">
+            <div>
+              <h4>中石化第二加油站</h4>
+              <p>距离: 2.5km | 92#: ¥7.21/L</p>
+              <p>地址: 北京市朝阳区朝阳路35号</p>
+            </div>
+            <div class="arrow">></div>
+          </div>
+
+          <div class="station-item" onclick="showPage('refuel-page')">
+            <div>
+              <h4>中石化第三加油站</h4>
+              <p>距离: 3.8km | 92#: ¥7.19/L</p>
+              <p>地址: 北京市海淀区中关村大街12号</p>
+            </div>
+            <div class="arrow">></div>
+          </div>
+        </div>
+
+        <button
+          class="btn-outline"
+          style="margin-top: 20px"
+          onclick="showPage('home-page')"
+        >
+          返回首页
+        </button>
+      </div>
+
+      <!-- 在线加油页面 -->
+      <div id="refuel-page" class="page">
+        <div class="header">
+          <h1>在线加油</h1>
+        </div>
+
+        <div class="card">
+          <div class="input-group">
+            <label>选择加油站</label>
+            <select>
+              <option value="1">中石化第一加油站</option>
+              <option value="2">中石化第二加油站</option>
+              <option value="3">中石化第三加油站</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>选择油品</label>
+            <select>
+              <option value="92">92#汽油 (¥7.23/L)</option>
+              <option value="95">95#汽油 (¥7.78/L)</option>
+              <option value="98">98#汽油 (¥8.77/L)</option>
+              <option value="0">柴油 (¥7.10/L)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>油枪号</label>
+            <input type="number" placeholder="请输入油枪号" />
+          </div>
+
+          <div class="input-group">
+            <label>加油金额</label>
+            <input type="number" placeholder="请输入加油金额" value="200" />
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="detail-item">
+            <div class="label">加油金额</div>
+            <div class="value">¥200.00</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">会员折扣</div>
+            <div class="value">95折</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">优惠金额</div>
+            <div class="value highlight">-¥10.00</div>
+          </div>
+          <div class="detail-item" style="margin-top: 10px; font-size: 18px">
+            <div class="label">实付金额</div>
+            <div class="value highlight">¥190.00</div>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="showPage('payment-success')">
+          确认支付
+        </button>
+        <button
+          class="btn-outline"
+          style="margin-top: 15px"
+          onclick="showPage('home-page')"
+        >
+          返回首页
+        </button>
+      </div>
+
+      <!-- 支付成功页面 -->
+      <div id="payment-success" class="page">
+        <div class="success-icon">
+          <img
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTQwIDRDMjAuMSA0IDQgMjAuMSA0IDQwczE2LjEgMzYgMzYgMzZjMTkuOSAwIDM2LTE2LjEgMzYtMzZTNTkuOSA0IDQwIDR6TTM0IDU4TDE2IDQwbDUuNy01LjcgMTIuMyAxMi4zTDU4LjMgMjIgNjQgMjcuN0wzNCA1OHoiLz48L3N2Zz4="
+            alt="支付成功"
+          />
+          <h2>支付成功</h2>
+        </div>
+
+        <div class="card">
+          <div class="detail-item">
+            <div class="label">油站名称</div>
+            <div class="value">中石化第一加油站</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">油品</div>
+            <div class="value">92#汽油</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">油机单价</div>
+            <div class="value">¥7.23/L</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">实付单价</div>
+            <div class="value">¥6.87/L</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">加油金额</div>
+            <div class="value">¥200.00</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">优惠金额</div>
+            <div class="value highlight">¥10.00</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">实付金额</div>
+            <div class="value highlight">¥190.00</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">每升优惠</div>
+            <div class="value highlight">¥0.36/L</div>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="showPage('home-page')">
+          完成
+        </button>
+        <button
+          class="btn-outline"
+          style="margin-top: 15px"
+          onclick="showPage('consumption-page')"
+        >
+          查看订单
+        </button>
+      </div>
+
+      <!-- 个人中心页面 -->
+      <div id="profile-page" class="page">
+        <div class="user-info">
+          <img
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0iI2RkZCI+PHBhdGggZD0iTTMwIDRDMTUuNjQgNCw0IDE1LjY0LDQgMzBzMTEuNjQgMjYsMjYgMjZzMjYtMTEuNjQsMjYtMjZTNDQuMzYgNCwzMCA0eiBNMzAgMTNjMy4zMSwwLDYsMi42OSw2LDZzLTIuNjksNi02LDZzLTYtMi42OS02LTZTMjYuNjksMTMsMzAsMTN6IE0zMCw1MGMtNS4wMSwwLTkuNDEtMi41Ni0xMi01LjQ0YzAuMDUtMy45Nyw4LjAxLTYuMTYsMTItNi4xNnMxMS45NSwyLjE5LDEyLDYuMTZDMzkuNDEsNDcuNDQsMzUuMDEsNTAsMzAsNTB6Ii8+PC9zdmc+"
+            alt="用户头像"
+          />
+          <div>
+            <h3>张三</h3>
+            <p>会员号：888888</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="detail-item">
+            <div class="label">账户余额</div>
+            <div class="value theme-color">¥1,280.00</div>
+          </div>
+          <button class="btn-primary" onclick="showPage('recharge-page')">
+            立即充值
+          </button>
+        </div>
+
+        <div class="menu-list">
+          <div class="menu-item" onclick="showPage('recharge-record')">
+            <div>
+              <img
+                class="icon"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTExLjggMTAuOWMtMi4yNy0uNTktMy0xLjItMy0yLjE1IDAtMS4wOSAxLjAxLTEuODUgMi43LTEuODUgMS43OCAwIDIuNDQuODUgMi41IDIuMWgyLjIxYy0uMDctMS43Mi0xLjEyLTMuMy0zLjIxLTMuODFWM2gtM3YyLjE2Yy0xLjk0LjQyLTMuNSAxLjY4LTMuNSAzLjYxIDAgMi4zMSAxLjkxIDMuNDYgNC43IDQuMTMgMi41LjYgMyAxLjQ4IDMgMi40MSAwIC45NC0uODQgMS45NC0yLjcgMS45NC0yLjA2IDAtMi44Ny0uOTItMy0yLjFoLTIuMjFjLjE0IDIuMTkgMS43NiAzLjQyIDMuNzEgMy44NFYyMWgzdi0yLjE1YzEuOTUtLjM3IDMuNS0xLjUgMy41LTMuNTUgMC0yLjg0LTIuNDMtMy44MS00LjctNC40eiIvPjwvc3ZnPg=="
+                alt="充值记录"
+              />
+              充值记录
+            </div>
+            <div class="arrow">></div>
+          </div>
+          <div class="menu-item" onclick="showPage('consumption-page')">
+            <div>
+              <img
+                class="icon"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTE5IDNINWMtMS4xMSAwLTIgLjktMiAydjE0YzAgMS4xLjg5IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bS0yIDEwSDdWNWgxMHY4eiIvPjwvc3ZnPg=="
+                alt="消费记录"
+              />
+              消费记录
+            </div>
+            <div class="arrow">></div>
+          </div>
+          <div class="menu-item">
+            <div>
+              <img
+                class="icon"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTEyLjY1IDEwQzExLjgzIDcuNjcgOS42MSA2IDcgNmMtMy4zMSAwLTYgMi42OS02IDZzMi42OSA2IDYgNmMyLjYxIDAgNC44My0xLjY3IDUuNjUtNEgxN3YxaDR2LTFoMnYtMkgxMi42NXpNNyAxNGMtMS4xMSAwLTItLjktMi0ycy45LTIgMi0yIDIgLjkgMiAyLS45IDItMiAyeiIvPjwvc3ZnPg=="
+                alt="修改密码"
+              />
+              修改密码
+            </div>
+            <div class="arrow">></div>
+          </div>
+          <div class="menu-item">
+            <div>
+              <img
+                class="icon"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHY2aDE2di02YzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg=="
+                alt="修改个人信息"
+              />
+              修改个人信息
+            </div>
+            <div class="arrow">></div>
+          </div>
+          <div class="menu-item">
+            <div>
+              <img
+                class="icon"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTZoMnY2em0wLThoLTJ2LTJoMnYyeiIvPjwvc3ZnPg=="
+                alt="关于我们"
+              />
+              关于我们
+            </div>
+            <div class="arrow">></div>
+          </div>
+        </div>
+
+        <button class="btn-outline" onclick="showPage('login-page')">
+          退出登录
+        </button>
+
+        <div class="tab-bar">
+          <div class="tab-item" onclick="showPage('home-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzY2NiI+PHBhdGggZD0iTTEwIDIwdi02aDR2Nmg1di04aDNMMTIgMyAyIDEyaDN2OHoiLz48L3N2Zz4="
+              alt="首页"
+            />
+            <div>首页</div>
+          </div>
+          <div class="tab-item" onclick="showPage('station-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzY2NiI+PHBhdGggZD0iTTE5Ljc3IDcuMjNsLjAxLS4wMS0zLjcyLTMuNzJMMTUgNC4yNXYyLjA2Yy0uODMuMDYtMS41Ny40My0xLjk5IDEuMDJsLS4yMi0uMDZjLTIuMzYtLjY1LTQuNzYtLjA2LTYuOTQgMS42NC0yLjE4IDEuNy0zLjQzIDQuMzYtMy40MyA3LjA5SDVjMC0yLjIxIDEuMDMtNC40MiAyLjc1LTUuODIgMS43MS0xLjM5IDMuNTgtMS44NSA1LjQ2LTEuMzJsLjE2LjA1Yy0uNDMuNDMtLjcyIDEuMDItLjcyIDEuNjhoMy4wMWMwLTEuMzggMS4xMi0yLjUgMi41LTIuNWguNnYtMi4yMWwxLjAxLTEuMDFNMTggMTVoLTJ2N2gydi03bS00IDBINnY1aDh2LTV6Ii8+PC9zdmc+"
+              alt="加油"
+            />
+            <div>加油</div>
+          </div>
+          <div class="tab-item" onclick="showPage('consumption-page')">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzY2NiI+PHBhdGggZD0iTTE5IDNINWMtMS4xMSAwLTIgLjktMiAydjE0YzAgMS4xLjg5IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bS0yIDEwSDdWNWgxMHY4eiIvPjwvc3ZnPg=="
+              alt="订单"
+            />
+            <div>订单</div>
+          </div>
+          <div class="tab-item active">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2M0MDAwZiI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHY2aDE2di02YzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg=="
+              alt="我的"
+            />
+            <div>我的</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 充值记录页面 -->
+      <div id="recharge-record" class="page">
+        <div class="header">
+          <h1>充值记录</h1>
+        </div>
+
+        <div class="card">
+          <div class="record-item">
+            <div>
+              <h4>微信充值</h4>
+              <p>2023-06-15 14:28:36</p>
+            </div>
+            <div class="amount theme-color">+¥200.00</div>
+          </div>
+
+          <div class="record-item">
+            <div>
+              <h4>油站充值</h4>
+              <p>2023-06-10 09:15:22</p>
+            </div>
+            <div class="amount theme-color">+¥1000.00</div>
+          </div>
+
+          <div class="record-item">
+            <div>
+              <h4>微信充值</h4>
+              <p>2023-05-28 11:05:42</p>
+            </div>
+            <div class="amount theme-color">+¥300.00</div>
+          </div>
+        </div>
+
+        <button
+          class="btn-outline"
+          style="margin-top: 20px"
+          onclick="showPage('profile-page')"
+        >
+          返回个人中心
+        </button>
+      </div>
+
+      <!-- 消费记录页面 -->
+      <div id="consumption-page" class="page">
+        <div class="header">
+          <h1>消费记录</h1>
+        </div>
+
+        <div class="card">
+          <div class="record-item">
+            <div>
+              <h4>中石化第一加油站</h4>
+              <p>92#汽油 | 2023-06-18 10:25:36</p>
+            </div>
+            <div class="amount" style="color: #666">-¥190.00</div>
+          </div>
+
+          <div class="record-item">
+            <div>
+              <h4>中石化第二加油站</h4>
+              <p>95#汽油 | 2023-06-12 16:42:18</p>
+            </div>
+            <div class="amount" style="color: #666">-¥285.00</div>
+          </div>
+
+          <div class="record-item">
+            <div>
+              <h4>中石化第一加油站</h4>
+              <p>92#汽油 | 2023-06-05 08:15:22</p>
+            </div>
+            <div class="amount" style="color: #666">-¥142.50</div>
+          </div>
+
+          <div class="record-item">
+            <div>
+              <h4>中石化第三加油站</h4>
+              <p>98#汽油 | 2023-05-30 19:36:10</p>
+            </div>
+            <div class="amount" style="color: #666">-¥332.50</div>
+          </div>
+        </div>
+
+        <button
+          class="btn-outline"
+          style="margin-top: 20px"
+          onclick="showPage('profile-page')"
+        >
+          返回个人中心
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function showPage(pageId) {
+        // 隐藏所有页面
+        document.querySelectorAll(".page").forEach((page) => {
+          page.classList.remove("active");
+          //   page.classList.add("active");
+        });
+
+        // 显示指定页面
+        document.getElementById(pageId).classList.add("active");
+
+        // 更新底部导航栏状态
+        document.querySelectorAll(".tab-item").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // 根据页面ID设置对应的tab为active
+        if (pageId === "home-page") {
+          document.querySelectorAll(".tab-item")[0].classList.add("active");
+        } else if (pageId === "station-page" || pageId === "refuel-page") {
+          document.querySelectorAll(".tab-item")[1].classList.add("active");
+        } else if (pageId === "consumption-page") {
+          document.querySelectorAll(".tab-item")[2].classList.add("active");
+        } else if (pageId === "profile-page" || pageId === "recharge-record") {
+          document.querySelectorAll(".tab-item")[3].classList.add("active");
+        }
+      }
+    </script>
+  </body>
+</html>
